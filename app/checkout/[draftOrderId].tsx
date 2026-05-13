@@ -111,7 +111,7 @@ export default function CheckoutScreen() {
             Volver al carrito
           </Button>
           <Button className="flex-1" disabled>
-            Completar pedido
+            Completar
           </Button>
         </View>
       </Layout>
@@ -230,7 +230,7 @@ export default function CheckoutScreen() {
             disabled={!isDraftOrder}
             isPending={completeOrder.isPending}
           >
-            Completar pedido
+            Completar
           </Button>
         </View>
       </Layout>

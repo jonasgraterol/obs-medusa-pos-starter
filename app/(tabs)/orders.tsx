@@ -186,7 +186,7 @@ export default function OrdersScreen() {
         <DateRangeFilter
           value={dateRange}
           onChange={setDateRange}
-          placeholder="Rango de fechas"
+          placeholder="Fechas"
           className="flex-1"
           maxDate={new Date()}
         />
