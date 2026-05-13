@@ -42,7 +42,7 @@ export function SelectField({
       >
         {option.label}
       </Text>
-      {isSelected && <Check size={16} color="#4E78E5" />}
+      {isSelected && <Check size={16} color="#b80049" />}
     </TouchableOpacity>
   );
 

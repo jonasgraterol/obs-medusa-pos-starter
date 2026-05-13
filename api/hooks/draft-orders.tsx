@@ -13,7 +13,7 @@ import * as SecureStore from 'expo-secure-store';
 import * as React from 'react';
 
 const DRAFT_ORDER_ID_STORAGE_KEY = 'draft_order_id';
-export const DRAFT_ORDER_DEFAULT_CUSTOMER_EMAIL = 'noreply+pos-guest@agilo.com';
+export const DRAFT_ORDER_DEFAULT_CUSTOMER_EMAIL = 'noreply+pos-guest@obsjeans.com';
 
 const useGetOrSetDefaultCustomer = () => {
   const sdk = useMedusaSdk();

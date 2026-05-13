@@ -190,7 +190,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
   if (order.status === 'draft') {
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-active-200 px-4 py-2', className)}>
-        <FilePen size={16} color="#4E78E5" />
+        <FilePen size={16} color="#b80049" />
         <Text className="text-sm text-active-500">Borrador</Text>
       </View>
     );

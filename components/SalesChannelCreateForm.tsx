@@ -21,7 +21,7 @@ type SalesChannelFormData = z.infer<typeof salesChannelSchema>;
 const SalesChannelCreateForm: React.FC<SalesChannelCreateFormProps> = ({
   onSalesChannelCreated,
   defaultValues = {
-    description: 'Creado desde Agilo POS',
+    description: 'Creado desde OBS Jeans POS',
   },
 }) => {
   const createSalesChannel = useCreateSalesChannel({

@@ -6,7 +6,7 @@ import { LayoutWithKeyboardAvoidingScroll } from '@/components/ui/Layout';
 import { Text } from '@/components/ui/Text';
 import { useAuthCtx } from '@/contexts/auth';
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import * as z from 'zod/v4';
 
 const normalizeUrl = (url: string): string => {
@@ -101,6 +101,13 @@ export default function LoginScreen() {
     <LayoutWithKeyboardAvoidingScroll>
       <View className="items-center">
         <View className="w-full max-w-xl gap-6">
+          <View className="items-center mb-4">
+            <Image
+              source={require('@/assets/images/obs-logo.png')}
+              style={{ width: 240, height: 54 }}
+              resizeMode="contain"
+            />
+          </View>
           <Text className="text-4xl">Iniciar sesión</Text>
           {error && <InfoBanner colorScheme="error">{error}</InfoBanner>}
           <Form

@@ -20,8 +20,8 @@ export default function TabLayout() {
     <Tabs
       detachInactiveScreens={false}
       screenOptions={{
-        tabBarActiveTintColor: '#282828',
-        tabBarInactiveTintColor: '#B5B5B5',
+        tabBarActiveTintColor: '#1C1917',
+        tabBarInactiveTintColor: '#9CA3AF',
         headerShown: false,
         tabBarButton: HapticTab,
         animation: 'shift',
@@ -65,7 +65,7 @@ export default function TabLayout() {
             maxHeight: 17.6,
             fontSize: 9,
             aspectRatio: 1,
-            backgroundColor: '#282828',
+            backgroundColor: '#b80049',
             fontWeight: '700',
           },
           tabBarIcon: ({ color }) => <ShoppingCart size={20} color={color} />,
