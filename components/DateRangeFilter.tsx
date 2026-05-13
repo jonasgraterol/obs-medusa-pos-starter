@@ -35,7 +35,7 @@ export const DateRangeFilter = ({
   onChange,
   className,
   buttonClassName,
-  placeholder = 'Select date range',
+  placeholder = 'Seleccionar rango de fechas',
   minDate,
   maxDate,
 }: DateRangeFilterProps) => {
@@ -68,10 +68,10 @@ export const DateRangeFilter = ({
       return `${formatDate(start)} - ${formatDate(end)}`;
     } else if (range.startDate) {
       const start = dayjs(range.startDate).toDate();
-      return `${formatDate(start)} - Select end date`;
+      return `${formatDate(start)} - Seleccionar fecha final`;
     } else if (range.endDate) {
       const end = dayjs(range.endDate).toDate();
-      return `Select start date - ${formatDate(end)}`;
+      return `Seleccionar fecha inicial - ${formatDate(end)}`;
     }
 
     return '';

@@ -12,7 +12,7 @@ interface SalesChannelCreateFormProps {
 }
 
 const salesChannelSchema = z.object({
-  name: z.string().min(1, 'Sales channel name is required'),
+  name: z.string().min(1, 'El nombre del canal de ventas es obligatorio'),
   description: z.string().optional(),
 });
 
@@ -21,7 +21,7 @@ type SalesChannelFormData = z.infer<typeof salesChannelSchema>;
 const SalesChannelCreateForm: React.FC<SalesChannelCreateFormProps> = ({
   onSalesChannelCreated,
   defaultValues = {
-    description: 'Created via Agilo POS',
+    description: 'Creado desde Agilo POS',
   },
 }) => {
   const createSalesChannel = useCreateSalesChannel({
@@ -45,18 +45,18 @@ const SalesChannelCreateForm: React.FC<SalesChannelCreateFormProps> = ({
       defaultValues={defaultValues}
       className="flex-1"
     >
-      <TextField name="name" floatingPlaceholder placeholder="Channel Name" />
+      <TextField name="name" floatingPlaceholder placeholder="Nombre del canal" />
 
       <TextField
         name="description"
         floatingPlaceholder
-        placeholder="Description (optional)"
+        placeholder="Descripción (opcional)"
         multiline
         numberOfLines={3}
       />
 
       <FormButton isPending={createSalesChannel.isPending} className="mt-auto">
-        Create Channel
+        Crear canal
       </FormButton>
     </Form>
   );

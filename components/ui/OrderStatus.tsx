@@ -27,32 +27,32 @@ const orderStatuses: Record<
   }
 > = {
   archived: {
-    label: 'Archived',
+    label: 'Archivado',
     color: 'red',
     icon: Archive,
   },
   canceled: {
-    label: 'Canceled',
+    label: 'Cancelado',
     color: 'red',
     icon: X,
   },
   completed: {
-    label: 'Completed',
+    label: 'Completado',
     color: 'green',
     icon: CheckCircle,
   },
   draft: {
-    label: 'Draft',
+    label: 'Borrador',
     color: 'yellow',
     icon: FilePen,
   },
   pending: {
-    label: 'Pending',
+    label: 'Pendiente',
     color: 'yellow',
     icon: AlertCircle,
   },
   requires_action: {
-    label: 'Requires action',
+    label: 'Requiere acción',
     color: 'yellow',
     icon: AlertCircle,
   },
@@ -67,52 +67,52 @@ const paymentStatuses: Record<
   }
 > = {
   authorized: {
-    label: 'Authorized',
+    label: 'Autorizado',
     color: 'yellow',
     icon: AlertCircle,
   },
   awaiting: {
-    label: 'Awaiting',
+    label: 'En espera',
     color: 'yellow',
     icon: AlertCircle,
   },
   canceled: {
-    label: 'Canceled',
+    label: 'Cancelado',
     color: 'red',
     icon: X,
   },
   captured: {
-    label: 'Captured',
+    label: 'Capturado',
     color: 'green',
     icon: CheckCircle,
   },
   not_paid: {
-    label: 'Not paid',
+    label: 'No pagado',
     color: 'red',
     icon: X,
   },
   partially_authorized: {
-    label: 'Partially authorized',
+    label: 'Parcialmente autorizado',
     color: 'yellow',
     icon: AlertCircle,
   },
   partially_captured: {
-    label: 'Partially captured',
+    label: 'Parcialmente capturado',
     color: 'yellow',
     icon: AlertCircle,
   },
   partially_refunded: {
-    label: 'Partially refunded',
+    label: 'Parcialmente reembolsado',
     color: 'yellow',
     icon: AlertCircle,
   },
   refunded: {
-    label: 'Refunded',
+    label: 'Reembolsado',
     color: 'red',
     icon: X,
   },
   requires_action: {
-    label: 'Requires action',
+    label: 'Requiere acción',
     color: 'yellow',
     icon: AlertCircle,
   },
@@ -127,42 +127,42 @@ const fulfillmentStatuses: Record<
   }
 > = {
   not_fulfilled: {
-    label: 'Not fulfilled',
+    label: 'Sin enviar',
     color: 'red',
     icon: Package,
   },
   partially_fulfilled: {
-    label: 'Partially fulfilled',
+    label: 'Parcialmente enviado',
     color: 'yellow',
     icon: PackageOpen,
   },
   fulfilled: {
-    label: 'Fulfilled',
+    label: 'Enviado',
     color: 'green',
     icon: CheckCircle,
   },
   partially_shipped: {
-    label: 'Partially shipped',
+    label: 'Parcialmente despachado',
     color: 'yellow',
     icon: Truck,
   },
   shipped: {
-    label: 'Shipped',
+    label: 'Despachado',
     color: 'green',
     icon: Truck,
   },
   delivered: {
-    label: 'Delivered',
+    label: 'Entregado',
     color: 'green',
     icon: Truck,
   },
   partially_delivered: {
-    label: 'Partially delivered',
+    label: 'Parcialmente entregado',
     color: 'yellow',
     icon: Truck,
   },
   canceled: {
-    label: 'Canceled',
+    label: 'Cancelado',
     color: 'red',
     icon: X,
   },
@@ -173,7 +173,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-error-200 px-4 py-2', className)}>
         <X size={16} color="#F14747" />
-        <Text className="text-sm text-error-500">Canceled</Text>
+        <Text className="text-sm text-error-500">Cancelado</Text>
       </View>
     );
   }
@@ -182,7 +182,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-warning-200 px-4 py-2', className)}>
         <AlertCircle size={16} color="#9B8435" />
-        <Text className="text-sm text-warning-500">Requires action</Text>
+        <Text className="text-sm text-warning-500">Requiere acción</Text>
       </View>
     );
   }
@@ -191,7 +191,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-active-200 px-4 py-2', className)}>
         <FilePen size={16} color="#4E78E5" />
-        <Text className="text-sm text-active-500">Draft</Text>
+        <Text className="text-sm text-active-500">Borrador</Text>
       </View>
     );
   }
@@ -200,7 +200,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-gray-100 px-4 py-2', className)}>
         <Archive size={16} color="#6b7280" />
-        <Text className="text-sm text-gray-500">Archived</Text>
+        <Text className="text-sm text-gray-500">Archivado</Text>
       </View>
     );
   }
@@ -211,7 +211,7 @@ export const OrderListStatus: React.FC<OrderStatusProps> = ({ order, className }
     return (
       <View className={clx('flex-row gap-2 rounded-full bg-gray-100 px-4 py-2', className)}>
         <HelpCircle size={16} color="#6b7280" />
-        <Text className="text-sm text-gray-500">Unknown</Text>
+        <Text className="text-sm text-gray-500">Desconocido</Text>
       </View>
     );
   }
@@ -250,7 +250,7 @@ export const FulfillmentStatus: React.FC<OrderStatusProps> = ({ order, className
     return (
       <View className={clx('flex-row items-center gap-1 rounded-full border border-gray-500 px-2 py-1', className)}>
         <HelpCircle size={14} color="#6b7280" />
-        <Text className="text-xs text-gray-500">Unknown</Text>
+        <Text className="text-xs text-gray-500">Desconocido</Text>
       </View>
     );
   }
@@ -293,7 +293,7 @@ export const PaymentStatus: React.FC<OrderStatusProps> = ({ order, className }) 
     return (
       <View className={clx('flex-row items-center gap-1 rounded-full border border-gray-500 px-2 py-1', className)}>
         <HelpCircle size={14} color="#6b7280" />
-        <Text className="text-xs text-gray-500">Unknown</Text>
+        <Text className="text-xs text-gray-500">Desconocido</Text>
       </View>
     );
   }
@@ -336,7 +336,7 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({ order, className }) =>
     return (
       <View className={clx('flex-row items-center gap-1 rounded-full border border-gray-500 px-2 py-1', className)}>
         <HelpCircle size={14} color="#6b7280" />
-        <Text className="text-xs text-gray-500">Unknown</Text>
+        <Text className="text-xs text-gray-500">Desconocido</Text>
       </View>
     );
   }

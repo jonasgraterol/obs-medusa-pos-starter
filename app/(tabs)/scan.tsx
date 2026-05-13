@@ -32,7 +32,7 @@ export default function ScanScreen() {
         });
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       } else {
-        setErrorMessage('Product not found');
+        setErrorMessage('Producto no encontrado');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       }
     },
@@ -87,7 +87,7 @@ export default function ScanScreen() {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-black">
         <ActivityIndicator size="large" color="white" />
-        <Text className="mt-4 text-white">Requesting camera permission...</Text>
+        <Text className="mt-4 text-white">Solicitando permiso de cámara...</Text>
       </SafeAreaView>
     );
   }
@@ -95,12 +95,12 @@ export default function ScanScreen() {
   if (hasPermission === false) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-black p-5">
-        <Text className="mb-4 text-center text-2xl text-white">Camera Access Required</Text>
+        <Text className="mb-4 text-center text-2xl text-white">Acceso a la cámara requerido</Text>
         <Text className="mb-8 text-center text-white opacity-70">
-          Please enable camera access in settings to scan barcodes
+          Por favor habilita el acceso a la cámara en ajustes para escanear códigos de barras
         </Text>
         <TouchableOpacity className="items-center rounded-lg border border-white p-4" onPress={handleGoBack}>
-          <Text className="text-white">Go Back</Text>
+          <Text className="text-white">Volver</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
@@ -159,7 +159,7 @@ export default function ScanScreen() {
           {/* Scan Text */}
           {!scanBarcodeMutation.isPending && (
             <Animated.View entering={FadeIn} exiting={FadeOut} className="absolute top-full mt-6">
-              <Text className="text-center text-xl text-white">Scan barcode</Text>
+              <Text className="text-center text-xl text-white">Escanear código de barras</Text>
             </Animated.View>
           )}
         </View>
@@ -173,7 +173,7 @@ export default function ScanScreen() {
           className="pb-safe-offset-4 absolute bottom-0 left-0 right-0 flex items-center px-6"
         >
           <View className="rounded-3xl bg-white px-4 py-2">
-            <Text className="text-center">Searching...</Text>
+            <Text className="text-center">Buscando...</Text>
           </View>
         </Animated.View>
       )}

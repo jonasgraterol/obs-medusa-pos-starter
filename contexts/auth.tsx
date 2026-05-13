@@ -100,15 +100,15 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         if (isUnauthorizedError(error)) {
           Toast.show({
             type: 'error',
-            text1: 'Login Failed',
-            text2: 'Invalid email or password',
+            text1: 'Error de inicio de sesión',
+            text2: 'Correo electrónico o contraseña inválidos',
             visibilityTime: 4000,
           });
         } else {
-          const message = error instanceof Error ? error.message : 'Login failed. Please try again.';
+          const message = error instanceof Error ? error.message : 'Error al iniciar sesión. Por favor intente de nuevo.';
           Toast.show({
             type: 'error',
-            text1: 'Login Error',
+            text1: 'Error de inicio de sesión',
             text2: message,
             visibilityTime: 4000,
           });
@@ -201,16 +201,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         if (isUnauthorizedError(error)) {
           Toast.show({
             type: 'error',
-            text1: 'Session Expired',
-            text2: 'Your session has expired. Please log in again.',
+            text1: 'Sesión expirada',
+            text2: 'Tu sesión ha expirado. Por favor inicia sesión de nuevo.',
             visibilityTime: 4000,
           });
         } else {
           console.error('Failed to load auth state:', error);
           Toast.show({
             type: 'error',
-            text1: 'Authentication Error',
-            text2: 'Failed to load authentication state. Please try again.',
+            text1: 'Error de autenticación',
+            text2: 'Error al cargar el estado de autenticación. Por favor intente de nuevo.',
             visibilityTime: 4000,
           });
         }

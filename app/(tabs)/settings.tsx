@@ -20,8 +20,8 @@ export default function SettingsScreen() {
   return (
     <>
       <LayoutWithScroll>
-        <Text className="mb-6 text-4xl">Settings</Text>
-        <Text className="mb-4 text-2xl">Sales Channel</Text>
+        <Text className="mb-6 text-4xl">Ajustes</Text>
+        <Text className="mb-4 text-2xl">Canal de ventas</Text>
         <Button
           onPress={() => router.push('/settings/sales-channel')}
           variant="outline"
@@ -31,7 +31,7 @@ export default function SettingsScreen() {
         >
           {settings.data?.sales_channel?.name || '—'}
         </Button>
-        <Text className="mb-4 text-2xl">Region</Text>
+        <Text className="mb-4 text-2xl">Región</Text>
         <Button
           onPress={() => router.push('/settings/region')}
           variant="outline"
@@ -41,7 +41,7 @@ export default function SettingsScreen() {
         >
           {settings.data?.region?.name || '—'}
         </Button>
-        <Text className="mb-4 text-2xl">Stock location</Text>
+        <Text className="mb-4 text-2xl">Ubicación de inventario</Text>
         <Button
           onPress={() => router.push('/settings/stock-location')}
           variant="outline"
@@ -51,7 +51,7 @@ export default function SettingsScreen() {
         >
           {settings.data?.stock_location?.name || '—'}
         </Button>
-        <Text className="mb-4 text-2xl">Reset</Text>
+        <Text className="mb-4 text-2xl">Restablecer</Text>
         <Button
           variant="outline"
           onPress={() => {
@@ -59,13 +59,13 @@ export default function SettingsScreen() {
           }}
           className="mb-8"
         >
-          Clear Settings
+          Borrar configuración
         </Button>
-        <Text className="mb-4 text-2xl">Account</Text>
+        <Text className="mb-4 text-2xl">Cuenta</Text>
         <Button onPress={() => setIsDialogVisible(true)} className="mb-4">
-          Log Out
+          Cerrar sesión
         </Button>
-        <Text className="text-gray-300">You will be signed out of your account.</Text>
+        <Text className="text-gray-300">Se cerrará la sesión de tu cuenta.</Text>
       </LayoutWithScroll>
 
       <Prompt
@@ -76,9 +76,9 @@ export default function SettingsScreen() {
           await auth.logout();
         }}
         onClose={() => setIsDialogVisible(false)}
-        submitText="Logout"
-        cancelText="Cancel"
-        title="Are you sure you want to logout?"
+        submitText="Cerrar sesión"
+        cancelText="Cancelar"
+        title="¿Estás seguro de que deseas cerrar sesión?"
         visible={isDialogVisible}
         showCloseButton={false}
         dismissOnOverlayPress={false}

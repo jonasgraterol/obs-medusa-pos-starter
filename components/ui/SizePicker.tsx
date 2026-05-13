@@ -16,7 +16,7 @@ export function SizePicker({
   sizes,
   selectedSize,
   onSizeChange,
-  label = 'Size',
+  label = 'Talla',
   disabled = false,
   className = '',
 }: SizePickerProps) {

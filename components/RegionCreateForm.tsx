@@ -18,8 +18,8 @@ interface RegionCreateFormProps {
 }
 
 const regionSchema = z.object({
-  name: z.string().min(1, 'Region name is required'),
-  currency_code: z.string().min(1, 'Currency is required'),
+  name: z.string().min(1, 'El nombre de la región es obligatorio'),
+  currency_code: z.string().min(1, 'La moneda es obligatoria'),
   country_codes: z.array(z.string()).optional(),
   automatic_taxes: z.boolean().optional(),
   is_tax_inclusive: z.boolean().optional(),
@@ -74,12 +74,12 @@ const RegionCreateForm: React.FC<RegionCreateFormProps> = ({
 
   return (
     <Form schema={regionSchema} onSubmit={handleCreateRegion} defaultValues={defaultValues} className="flex-1">
-      <TextField name="name" floatingPlaceholder placeholder="Region Name" />
+      <TextField name="name" floatingPlaceholder placeholder="Nombre de la región" />
 
       <SelectField
         name="currency_code"
         floatingPlaceholder
-        placeholder="Currency"
+        placeholder="Moneda"
         options={currencyOptions}
         searchable
         onEndReached={currenciesQuery.fetchNextPage}
@@ -88,25 +88,25 @@ const RegionCreateForm: React.FC<RegionCreateFormProps> = ({
       <MultiSelectField
         name="country_codes"
         floatingPlaceholder
-        placeholder="Countries (optional)"
+        placeholder="Países (opcional)"
         options={countryOptions}
         searchable
       />
 
       <SwitchField
         name="automatic_taxes"
-        label="Automatic Taxes"
-        description="Enable automatic tax calculation for this region"
+        label="Impuestos automáticos"
+        description="Habilitar cálculo automático de impuestos para esta región"
       />
 
       <SwitchField
         name="is_tax_inclusive"
-        label="Tax Inclusive Pricing"
-        description="Prices include taxes (tax-inclusive) vs. taxes added at checkout (tax-exclusive)"
+        label="Precios con impuestos incluidos"
+        description="Los precios incluyen impuestos (impuestos incluidos) vs. impuestos agregados al pagar (impuestos excluidos)"
       />
 
       <FormButton isPending={createRegion.isPending} className="mt-auto">
-        Create Region
+        Crear región
       </FormButton>
     </Form>
   );

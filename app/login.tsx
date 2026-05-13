@@ -51,7 +51,7 @@ const validateMedusaUrl = async (url: string): Promise<boolean> => {
 const loginSchema = z.object({
   medusaUrl: z
     .string()
-    .min(1, 'Shop URL is required')
+    .min(1, 'La URL de la tienda es obligatoria')
     .transform(normalizeUrl)
     .refine(
       async (url) => {
@@ -67,11 +67,11 @@ const loginSchema = z.object({
         return await validateMedusaUrl(url);
       },
       {
-        message: 'Please enter a valid Medusa shop URL',
+        message: 'Por favor ingrese una URL válida de la tienda Medusa',
       },
     ),
-  email: z.email('Please enter a valid email address').min(3, 'Email is required'),
-  password: z.string().min(1, 'Password is required'),
+  email: z.email('Por favor ingrese un correo electrónico válido').min(3, 'El correo electrónico es obligatorio'),
+  password: z.string().min(1, 'La contraseña es obligatoria'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -87,7 +87,7 @@ export default function LoginScreen() {
     try {
       await auth.login(fullUrl, data.email, data.password);
     } catch (err: any) {
-      setError(err?.message || 'Login failed. Please try again.');
+      setError(err?.message || 'Error al iniciar sesión. Por favor intente de nuevo.');
     }
   };
 
@@ -101,7 +101,7 @@ export default function LoginScreen() {
     <LayoutWithKeyboardAvoidingScroll>
       <View className="items-center">
         <View className="w-full max-w-xl gap-6">
-          <Text className="text-4xl">Login</Text>
+          <Text className="text-4xl">Iniciar sesión</Text>
           {error && <InfoBanner colorScheme="error">{error}</InfoBanner>}
           <Form
             key={auth.state.status === 'loading' ? 'loading' : 'form'}
@@ -113,7 +113,7 @@ export default function LoginScreen() {
             <TextField
               name="medusaUrl"
               floatingPlaceholder
-              placeholder="Shop URL"
+              placeholder="URL de la tienda"
               keyboardType="url"
               autoCapitalize="none"
               autoCorrect={false}
@@ -126,7 +126,7 @@ export default function LoginScreen() {
             <TextField
               name="email"
               floatingPlaceholder
-              placeholder="Email Address"
+              placeholder="Correo electrónico"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -139,7 +139,7 @@ export default function LoginScreen() {
             <TextField
               name="password"
               floatingPlaceholder
-              placeholder="Password"
+              placeholder="Contraseña"
               secureTextEntry
               autoCapitalize="none"
               readOnly={auth.state.status === 'loading'}
@@ -148,7 +148,7 @@ export default function LoginScreen() {
               testID="loginPassword"
             />
 
-            <FormButton isPending={auth.state.status === 'loading'}>Sign In</FormButton>
+            <FormButton isPending={auth.state.status === 'loading'}>Iniciar sesión</FormButton>
           </Form>
         </View>
       </View>

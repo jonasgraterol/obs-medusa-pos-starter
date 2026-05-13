@@ -45,7 +45,7 @@ interface TPromotionItem extends AdminPromotion {
 }
 
 const addPromotionFormSchema = z.object({
-  promotionCode: z.string().min(1, 'Promotion code is required'),
+  promotionCode: z.string().min(1, 'El código de promoción es obligatorio'),
 });
 
 type LineItemType =
@@ -136,11 +136,11 @@ const PromotionItem: React.FC<{
   const getPromotionTypeLabel = (type?: string) => {
     switch (type) {
       case 'standard':
-        return 'Standard';
+        return 'Estándar';
       case 'buyget':
-        return 'Buy X Get Y';
+        return 'Compra X Lleva Y';
       default:
-        return 'Promotion';
+        return 'Promoción';
     }
   };
 
@@ -171,20 +171,20 @@ const PromotionItem: React.FC<{
         </View>
         <View className="flex-1 flex-col gap-2">
           <View className="flex-row items-center gap-2">
-            <Text className="font-medium">{item.code || 'Promotion'}</Text>
+            <Text className="font-medium">{item.code || 'Promoción'}</Text>
           </View>
           <View className="flex-row flex-wrap items-center gap-x-2 gap-y-1">
             <View className="flex-row gap-1">
-              <Text className="text-sm text-gray-400">Type:</Text>
+              <Text className="text-sm text-gray-400">Tipo:</Text>
               <Text className="text-sm">{getPromotionTypeLabel(item.type)}</Text>
             </View>
             <View className="flex-row gap-1">
-              <Text className="text-sm text-gray-400">Method:</Text>
-              <Text className="text-sm">{isAutomatic ? 'Automatic' : 'Code'}</Text>
+              <Text className="text-sm text-gray-400">Método:</Text>
+              <Text className="text-sm">{isAutomatic ? 'Automática' : 'Código'}</Text>
             </View>
             {item.campaign && (
               <View className="flex-row gap-1">
-                <Text className="text-sm text-gray-400">Campaign:</Text>
+                <Text className="text-sm text-gray-400">Campaña:</Text>
                 <Text className="text-sm">{item.campaign.name}</Text>
               </View>
             )}
@@ -215,7 +215,7 @@ const CustomerBadge: React.FC<{ customer: AdminDraftOrder['customer'] }> = ({ cu
         icon={<UserRoundPlus size={20} />}
         className="mb-6 justify-between"
       >
-        Add Customer
+        Agregar Cliente
       </Button>
     );
   }
@@ -241,7 +241,7 @@ const CustomerBadge: React.FC<{ customer: AdminDraftOrder['customer'] }> = ({ cu
         </View>
       ) : (
         <View>
-          <Text className="text-sm text-gray-300">Customer</Text>
+          <Text className="text-sm text-gray-300">Cliente</Text>
           <Text className="text-lg">{customer.email}</Text>
         </View>
       )}
@@ -277,10 +277,10 @@ const PromotionBadge: React.FC<PromotionBadgeProps> = ({ onAddPromotion, isAddin
         icon={<Tag size={16} />}
         className="mb-4 justify-between"
       >
-        Add Promotion
+        Agregar Promoción
       </Button>
 
-      <Dialog visible={isDialogOpen} onClose={() => setIsDialogOpen(false)} title="Add Promotion Code">
+      <Dialog visible={isDialogOpen} onClose={() => setIsDialogOpen(false)} title="Agregar Código de Promoción">
         <Form
           schema={addPromotionFormSchema}
           onSubmit={(data, form) => {
@@ -291,7 +291,7 @@ const PromotionBadge: React.FC<PromotionBadgeProps> = ({ onAddPromotion, isAddin
           className="gap-4"
         >
           <TextField
-            placeholder="Enter promotion code"
+            placeholder="Ingrese el código de promoción"
             name="promotionCode"
             autoComplete="off"
             autoCorrect={false}
@@ -301,10 +301,10 @@ const PromotionBadge: React.FC<PromotionBadgeProps> = ({ onAddPromotion, isAddin
           />
           <View className="flex-row gap-2">
             <Button variant="outline" className="flex-1" onPress={() => setIsDialogOpen(false)}>
-              Cancel
+              Cancelar
             </Button>
             <FormButton className="flex-1" isPending={isAddingPromotion}>
-              Apply
+              Aplicar
             </FormButton>
           </View>
         </Form>
@@ -332,7 +332,7 @@ const CartSummaryHeader: React.FC<
       <PromotionBadge onAddPromotion={onAddPromotion} isAddingPromotion={isAddingPromotion} />
       <View className="gap-2">
         <View className="flex-row justify-between">
-          <Text className="text-sm text-gray-400">Taxes</Text>
+          <Text className="text-sm text-gray-400">Impuestos</Text>
           {isLoading ? (
             <View className="h-[17px] w-1/4 rounded-md bg-gray-200" />
           ) : (
@@ -361,7 +361,7 @@ const CartSummaryHeader: React.FC<
         </View>
         {discountTotal > 0 && (
           <View className="flex-row justify-between">
-            <Text className="text-sm text-gray-400">Discount</Text>
+            <Text className="text-sm text-gray-400">Descuento</Text>
             {isLoading ? (
               <View className="h-[17px] w-1/4 rounded-md bg-gray-200" />
             ) : (
@@ -471,10 +471,10 @@ export default function CartScreen() {
   if (draftOrder.isError || settings.isError) {
     return (
       <Layout className="pb-6">
-        <Text className="text-4xl">Cart</Text>
+        <Text className="text-4xl">Carrito</Text>
         <View className="flex-1 items-center  justify-center gap-2">
           <InfoBanner variant="ghost" colorScheme="error" className="w-40">
-            Failed to load cart
+            Error al cargar el carrito
           </InfoBanner>
           <Button
             onPress={() => {
@@ -484,7 +484,7 @@ export default function CartScreen() {
             isPending={draftOrder.isRefetching || settings.isRefetching}
             variant="outline"
           >
-            Try Again
+            Intentar de nuevo
           </Button>
         </View>
       </Layout>
@@ -494,11 +494,11 @@ export default function CartScreen() {
   if (!draftOrder.data?.draft_order || !draftOrder.data?.draft_order.items.length) {
     return (
       <Layout className="pb-6">
-        <Text className="text-4xl">Cart</Text>
+        <Text className="text-4xl">Carrito</Text>
         <View className="flex-1 items-center justify-center gap-1">
           <ShoppingCart size={24} />
-          <Text className="text-xl">Your cart is empty</Text>
-          <Text className="text-gray-300">Add products to begin</Text>
+          <Text className="text-xl">Tu carrito está vacío</Text>
+          <Text className="text-gray-300">Agrega productos para comenzar</Text>
         </View>
         <View className="flex-row gap-2">
           <Button
@@ -510,10 +510,10 @@ export default function CartScreen() {
             isPending={cancelDraftOrder.isPending}
             disabled={!draftOrder.data?.draft_order}
           >
-            Cancel Cart
+            Cancelar carrito
           </Button>
           <Button className="flex-1" disabled>
-            Checkout
+            Pagar
           </Button>
         </View>
       </Layout>
@@ -542,7 +542,7 @@ export default function CartScreen() {
   return (
     <>
       <Layout className="pb-6">
-        <Text className="mb-6 text-4xl">Cart</Text>
+        <Text className="mb-6 text-4xl">Carrito</Text>
         <CustomerBadge customer={draftOrder.data.draft_order.customer} />
         <FlashList
           ref={itemsListRef}
@@ -580,7 +580,7 @@ export default function CartScreen() {
               isPending={cancelDraftOrder.isPending}
               disabled={draftOrder.isFetching || isUpdatingDraftOrder > 0}
             >
-              Cancel Cart
+              Cancelar carrito
             </Button>
             <Button
               className="flex-1"
@@ -594,7 +594,7 @@ export default function CartScreen() {
                 router.push(`/checkout/${draftOrder.data.draft_order.id}`);
               }}
             >
-              Checkout
+              Pagar
             </Button>
           </View>
         </View>
@@ -609,7 +609,7 @@ export default function CartScreen() {
           });
         }}
         onClose={() => setIsDialogVisible(false)}
-        title="Are you sure you want to cancel the cart?"
+        title="¿Estás seguro de que deseas cancelar el carrito?"
         visible={isDialogVisible}
         showCloseButton={false}
         dismissOnOverlayPress={false}

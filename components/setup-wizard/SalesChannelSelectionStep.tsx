@@ -23,20 +23,20 @@ export const SalesChannelSelectionStep: React.FC<SalesChannelSelectionStepProps>
 
   return (
     <View className="flex-1 p-5">
-      <Text className="mb-6 text-4xl">Setting Up</Text>
-      <Text className="mb-2 text-2xl">Choose a sales channel</Text>
+      <Text className="mb-6 text-4xl">Configurando</Text>
+      <Text className="mb-2 text-2xl">Elegir un canal de ventas</Text>
       <Text className="mb-6 text-gray-300">
-        Select an existing sales channel from the list or create a new one to proceed.
+        Selecciona un canal de ventas existente de la lista o crea uno nuevo para continuar.
       </Text>
 
       <SalesChannelList selectedSalesChannelId={selectedSalesChannel} onSalesChannelSelect={handleSalesChannelSelect} />
 
       <Button variant="outline" onPress={onCreateNew} className="mt-6">
-        Create New Sales Channel
+        Crear nuevo canal de ventas
       </Button>
 
       <Button onPress={() => onComplete(selectedSalesChannel)} disabled={!selectedSalesChannel} className="mt-4">
-        Next
+        Siguiente
       </Button>
     </View>
   );

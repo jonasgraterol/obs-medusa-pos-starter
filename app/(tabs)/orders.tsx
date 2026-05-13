@@ -94,7 +94,7 @@ export default function OrdersScreen() {
           ? `${item.customer.first_name} ${item.customer.last_name}`
           : item.customer?.email === DRAFT_ORDER_DEFAULT_CUSTOMER_EMAIL
             ? 'POS'
-            : item.customer?.email || 'Unknown Customer';
+            : item.customer?.email || 'Cliente desconocido';
 
       return (
         <View
@@ -111,7 +111,7 @@ export default function OrdersScreen() {
             <View className="flex-1 gap-4">
               <View className="flex-1">
                 <Text textBreakStrategy="balanced" className="shrink text-xl">
-                  Order #{item.display_id || item.id.slice(-6)}
+                  Pedido #{item.display_id || item.id.slice(-6)}
                 </Text>
               </View>
               <View className="flex-row gap-2">
@@ -161,23 +161,23 @@ export default function OrdersScreen() {
 
   return (
     <Layout>
-      <Text className="mb-6 text-4xl">My Orders</Text>
+      <Text className="mb-6 text-4xl">Mis Pedidos</Text>
 
       <SearchInput
         value={searchQuery}
         onChangeText={setSearchQuery}
-        placeholder="Search for a specific order..."
+        placeholder="Buscar un pedido específico..."
         className="mb-4"
       />
 
       <View className="mb-4 flex-row items-center gap-2">
         <MultiSelectFilter
           variant="secondary"
-          placeholder="Status"
+          placeholder="Estado"
           options={[
-            { label: 'Pending', value: 'pending' },
-            { label: 'Completed', value: 'completed' },
-            { label: 'Canceled', value: 'canceled' },
+            { label: 'Pendiente', value: 'pending' },
+            { label: 'Completado', value: 'completed' },
+            { label: 'Cancelado', value: 'canceled' },
           ]}
           className="flex-1"
           value={statusFilter}
@@ -186,7 +186,7 @@ export default function OrdersScreen() {
         <DateRangeFilter
           value={dateRange}
           onChange={setDateRange}
-          placeholder="Date Range"
+          placeholder="Rango de fechas"
           className="flex-1"
           maxDate={new Date()}
         />
@@ -203,7 +203,7 @@ export default function OrdersScreen() {
         ListEmptyComponent={
           <View className="mt-32 flex-1 items-center">
             <CircleAlert size={24} />
-            <Text className="mt-2 text-center text-xl">No orders match{'\n'}the search</Text>
+            <Text className="mt-2 text-center text-xl">Ningún pedido coincide{'\n'}con la búsqueda</Text>
           </View>
         }
         contentContainerClassName="pb-2"

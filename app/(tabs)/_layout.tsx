@@ -30,7 +30,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="products"
         options={{
-          title: 'Products',
+          title: 'Productos',
           tabBarIcon: ({ color }) => <Store size={20} color={color} />,
         }}
       />
@@ -38,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="orders"
         options={{
-          title: 'Orders',
+          title: 'Pedidos',
           tabBarIcon: ({ color }) => <ClipboardList size={20} color={color} />,
         }}
       />
@@ -46,7 +46,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="scan"
         options={{
-          title: 'Scan',
+          title: 'Escanear',
           tabBarIcon: ({ color }) => <ScanBarcode size={20} color={color} />,
           tabBarStyle: { display: 'none' },
         }}
@@ -55,7 +55,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Cart',
+          title: 'Carrito',
           tabBarBadge:
             draftOrder.data && draftOrder.data.draft_order.items.length > 0
               ? draftOrder.data.draft_order.items.length
@@ -75,7 +75,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title: 'Ajustes',
           tabBarIcon: ({ color }) => <Settings size={20} color={color} />,
         }}
       />

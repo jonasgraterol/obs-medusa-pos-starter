@@ -91,7 +91,7 @@ export default function ProductsScreen() {
               {/* TODO: display discounted price */}
               <Text className="font-bold">
                 {amounts.length === 0 || (typeof minPrice !== 'number' && typeof maxPrice !== 'number')
-                  ? 'No price available'
+                  ? 'Precio no disponible'
                   : minPrice === maxPrice
                     ? minPrice?.toLocaleString('en-US', {
                         style: 'currency',
@@ -134,7 +134,7 @@ export default function ProductsScreen() {
 
   return (
     <Layout className="gap-6">
-      <SearchInput value={searchQuery} onChangeText={setSearchQuery} placeholder="Search products..." />
+      <SearchInput value={searchQuery} onChangeText={setSearchQuery} placeholder="Buscar productos..." />
 
       <FlashList
         data={data}
@@ -147,7 +147,7 @@ export default function ProductsScreen() {
         ListEmptyComponent={
           <View className="mt-60 flex-1 items-center">
             <CircleAlert size={24} />
-            <Text className="mt-2 text-center text-xl">No products match{'\n'}the search</Text>
+            <Text className="mt-2 text-center text-xl">Ningún producto coincide{'\n'}con la búsqueda</Text>
           </View>
         }
         ListFooterComponent={

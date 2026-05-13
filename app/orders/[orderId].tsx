@@ -33,10 +33,10 @@ const CustomerInformation: React.FC<{
   if (isPosDefaultCustomer) {
     return (
       <View className="mb-4 gap-4">
-        <Text className="text-xl">Customer</Text>
+        <Text className="text-xl">Cliente</Text>
         <View>
           <Text className="text-sm text-gray-300">
-            No customer information available. This order was created on POS without a customer.
+            No hay información del cliente disponible. Este pedido fue creado en el POS sin un cliente.
           </Text>
         </View>
       </View>
@@ -44,10 +44,10 @@ const CustomerInformation: React.FC<{
   }
 
   const info = [
-    { label: 'Full Name', value: customerName },
-    { label: 'Mail', value: customerEmail },
-    { label: 'Address', value: customerAddress },
-    { label: 'Phone', value: customerPhone },
+    { label: 'Nombre completo', value: customerName },
+    { label: 'Correo', value: customerEmail },
+    { label: 'Dirección', value: customerAddress },
+    { label: 'Teléfono', value: customerPhone },
   ].filter((item) => item.value && item.value.trim().length > 0);
 
   return (
@@ -79,33 +79,33 @@ const OrderInformation: React.FC<{
 
   return (
     <>
-      <Text className="mb-4 text-xl">Order Details</Text>
+      <Text className="mb-4 text-xl">Detalles del pedido</Text>
       <View className="mb-6 gap-2">
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Order Status</Text>
+            <Text className="text-sm text-gray-300">Estado del pedido</Text>
           </View>
           <OrderStatus order={order} />
         </View>
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Payment Status</Text>
+            <Text className="text-sm text-gray-300">Estado del pago</Text>
           </View>
           <PaymentStatus order={order} />
         </View>
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Fulfillment Status</Text>
+            <Text className="text-sm text-gray-300">Estado de envío</Text>
           </View>
           <FulfillmentStatus order={order} />
         </View>
       </View>
       <CustomerInformation order={order} />
-      <Text className="mb-4 text-xl">Summary</Text>
+      <Text className="mb-4 text-xl">Resumen</Text>
       <View className="gap-2">
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">{automaticTaxesOn ? 'Subtotal (incl. taxes)' : 'Subtotal'}</Text>
+            <Text className="text-sm text-gray-300">{automaticTaxesOn ? 'Subtotal (incl. impuestos)' : 'Subtotal'}</Text>
           </View>
           <View className="flex-1">
             <Text className="text-right text-sm">
@@ -120,7 +120,7 @@ const OrderInformation: React.FC<{
         {shippingTotal > 0 && (
           <View className="flex-row items-center justify-between gap-4">
             <View className="flex-1">
-              <Text className="text-sm text-gray-300">{automaticTaxesOn ? 'Shipping (incl. taxes)' : 'Shipping'}</Text>
+              <Text className="text-sm text-gray-300">{automaticTaxesOn ? 'Envío (incl. impuestos)' : 'Envío'}</Text>
             </View>
             <View className="flex-1">
               <Text className="text-right text-sm">
@@ -136,7 +136,7 @@ const OrderInformation: React.FC<{
         {order.discount_total > 0 && (
           <View className="flex-row items-center justify-between gap-4">
             <View className="flex-1">
-              <Text className="text-sm text-gray-300">Discount</Text>
+              <Text className="text-sm text-gray-300">Descuento</Text>
             </View>
             <View className="flex-1">
               <Text className="text-right text-sm">
@@ -151,7 +151,7 @@ const OrderInformation: React.FC<{
         )}
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Tax Total{automaticTaxesOn ? ' (included)' : ''}</Text>
+            <Text className="text-sm text-gray-300">Total de impuestos{automaticTaxesOn ? ' (incluido)' : ''}</Text>
           </View>
           <View className="flex-1">
             <Text className="text-right text-sm">
@@ -166,7 +166,7 @@ const OrderInformation: React.FC<{
         <View className="h-hairline w-full bg-gray-200" />
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Paid Total</Text>
+            <Text className="text-sm text-gray-300">Total pagado</Text>
           </View>
           <View className="flex-1">
             <Text className="text-right text-sm">
@@ -185,7 +185,7 @@ const OrderInformation: React.FC<{
         </View>
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Credit Lines Total</Text>
+            <Text className="text-sm text-gray-300">Total de líneas de crédito</Text>
           </View>
           <View className="flex-1">
             <Text className="text-right text-sm">
@@ -201,7 +201,7 @@ const OrderInformation: React.FC<{
         </View>
         <View className="flex-row items-center justify-between gap-4">
           <View className="flex-1">
-            <Text className="text-sm text-gray-300">Outstanding Amount</Text>
+            <Text className="text-sm text-gray-300">Monto pendiente</Text>
           </View>
           <View className="flex-1">
             <Text className="text-right text-sm">
@@ -287,7 +287,7 @@ const OrderDetails: React.FC<{ animateOut: (callback?: () => void) => void }> = 
               })}
             </Text>
             <Text className="mt-auto text-right text-sm text-gray-300">
-              Qty: {item.quantity.toLocaleString('en-US')}
+              Cant: {item.quantity.toLocaleString('en-US')}
             </Text>
           </View>
         </TouchableOpacity>
@@ -299,23 +299,23 @@ const OrderDetails: React.FC<{ animateOut: (callback?: () => void) => void }> = 
   return (
     <>
       <View className="mb-4 flex-row items-center justify-between gap-4">
-        <Text className="text-2xl">Order #{orderNumber}</Text>
+        <Text className="text-2xl">Pedido #{orderNumber}</Text>
         <Text className="text-gray-300">{orderDate}</Text>
       </View>
       {orderQuery.isLoading || settings.isLoading ? (
         <LoadingBanner variant="ghost" className="my-11">
-          Fetching order details...
+          Cargando detalles del pedido...
         </LoadingBanner>
       ) : orderQuery.isError ? (
         <View className="py-11">
           <InfoBanner colorScheme="error">
-            {orderQuery.error.message || 'An unknown error occurred while fetching the order details.'}
+            {orderQuery.error.message || 'Ocurrió un error desconocido al cargar los detalles del pedido.'}
           </InfoBanner>
         </View>
       ) : settings.isError ? (
         <View className="py-11">
           <InfoBanner colorScheme="error">
-            {settings.error.message || 'An unknown error occurred while fetching the settings.'}
+            {settings.error.message || 'Ocurrió un error desconocido al cargar la configuración.'}
           </InfoBanner>
         </View>
       ) : orderQuery.isSuccess && orderQuery.data ? (
@@ -332,7 +332,7 @@ const OrderDetails: React.FC<{ animateOut: (callback?: () => void) => void }> = 
         />
       ) : (
         <View className="py-11">
-          <InfoBanner colorScheme="error">An unknown error occurred while fetching the order details.</InfoBanner>
+          <InfoBanner colorScheme="error">Ocurrió un error desconocido al cargar los detalles del pedido.</InfoBanner>
         </View>
       )}
     </>

@@ -17,7 +17,7 @@ import { FlatList, TouchableOpacity, View } from 'react-native';
 import { z } from 'zod/v4';
 
 const customerFormSchema = z.object({
-  email: z.email('Please enter a valid email address').min(3, 'Email is required'),
+  email: z.email('Por favor ingrese un correo electrónico válido').min(3, 'El correo electrónico es obligatorio'),
   first_name: z.string().optional(),
   last_name: z.string().optional(),
   phone: z.string().optional(),
@@ -35,12 +35,12 @@ const AddNewCustomerButton: React.FC<{ onNewCustomer: (customer: AdminCustomer) 
           setIsOpen(true);
         }}
       >
-        Add New Customer
+        Agregar nuevo cliente
       </Button>
 
       <Dialog
         visible={isOpen}
-        title="Add New Customer"
+        title="Agregar nuevo cliente"
         onClose={() => setIsOpen(false)}
         dismissOnOverlayPress={true}
         contentClassName="flex-shrink"
@@ -59,15 +59,15 @@ const AddNewCustomerButton: React.FC<{ onNewCustomer: (customer: AdminCustomer) 
         >
           <TextField
             name="email"
-            placeholder="Email Address"
+            placeholder="Correo electrónico"
             autoComplete="off"
             autoCapitalize="none"
             inputMode="email"
           />
-          <TextField name="first_name" placeholder="First Name" autoComplete="off" autoCapitalize="words" />
-          <TextField name="last_name" placeholder="Last Name" autoComplete="off" autoCapitalize="words" />
-          <TextField name="phone" placeholder="Phone Number" autoComplete="off" autoCapitalize="none" inputMode="tel" />
-          <FormButton>Create Customer</FormButton>
+          <TextField name="first_name" placeholder="Nombre" autoComplete="off" autoCapitalize="words" />
+          <TextField name="last_name" placeholder="Apellido" autoComplete="off" autoCapitalize="words" />
+          <TextField name="phone" placeholder="Número de teléfono" autoComplete="off" autoCapitalize="none" inputMode="tel" />
+          <FormButton>Crear cliente</FormButton>
         </Form>
       </Dialog>
     </>
@@ -156,7 +156,7 @@ const CustomersList: React.FC<{
   }, [customersQuery]);
 
   if (customersQuery.isError) {
-    return <InfoBanner colorScheme="error">Error loading customers. Please try again.</InfoBanner>;
+    return <InfoBanner colorScheme="error">Error al cargar clientes. Por favor intente de nuevo.</InfoBanner>;
   }
 
   return (
@@ -171,9 +171,9 @@ const CustomersList: React.FC<{
         <View className="items-center justify-center gap-2 px-4 py-10">
           <CircleAlert size={24} />
           {typeof q === 'string' && q.length > 1 ? (
-            <Text className="text-center">No customers match{'\n'}the search</Text>
+            <Text className="text-center">Ningún cliente coincide{'\n'}con la búsqueda</Text>
           ) : (
-            <Text className="text-center">No customers found</Text>
+            <Text className="text-center">No se encontraron clientes</Text>
           )}
         </View>
       }
@@ -223,7 +223,7 @@ export default function CustomerLookupScreen() {
   return (
     <Dialog
       visible={true}
-      title="Customer Lookup"
+      title="Buscar cliente"
       onClose={() => router.back()}
       dismissOnOverlayPress={true}
       contentClassName="flex-shrink"
@@ -231,7 +231,7 @@ export default function CustomerLookupScreen() {
       <SearchInput
         value={searchQuery}
         onChangeText={setSearchQuery}
-        placeholder="Search customers..."
+        placeholder="Buscar clientes..."
         className="mb-4"
       />
 
@@ -259,7 +259,7 @@ export default function CustomerLookupScreen() {
           router.back();
         }}
       >
-        Select Customer
+        Seleccionar cliente
       </Button>
       <AddNewCustomerButton
         onNewCustomer={(customer) => {

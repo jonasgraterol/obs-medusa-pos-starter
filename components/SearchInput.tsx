@@ -7,7 +7,7 @@ export const SearchInput: React.FC<{
   onChangeText: (text: string) => void;
   placeholder?: string;
   className?: string;
-}> = ({ value, onChangeText, placeholder = 'Search...', className }) => {
+}> = ({ value, onChangeText, placeholder = 'Buscar...', className }) => {
   return (
     <View className={clx('relative', className)}>
       <Search size={16} className="absolute left-4 top-1/2 -translate-y-[50%] text-gray-300" />
