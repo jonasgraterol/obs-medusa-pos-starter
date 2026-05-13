@@ -20,17 +20,17 @@ export const SalesChannelCreationStep: React.FC<SalesChannelCreationStepProps> =
 
   return (
     <ScrollView contentContainerClassName="p-5">
-      <Text className="mb-6 text-4xl">Setting Up</Text>
-      <Text className="mb-2 text-2xl">Choose a sales channel</Text>
+      <Text className="mb-6 text-4xl">Configurando</Text>
+      <Text className="mb-2 text-2xl">Elegir un canal de ventas</Text>
       <Text className="mb-6 text-gray-300">
-        Select an existing sales channel from the list or create a new one to proceed.
+        Selecciona un canal de ventas existente de la lista o crea uno nuevo para continuar.
       </Text>
 
       <SalesChannelCreateForm onSalesChannelCreated={handleSalesChannelCreated} />
 
       {typeof onBackToSelection === 'function' && (
         <Button variant="outline" className="mt-4" onPress={onBackToSelection}>
-          Cancel
+          Cancelar
         </Button>
       )}
     </ScrollView>

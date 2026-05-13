@@ -14,17 +14,17 @@ export default function SalesChannelScreen() {
 
   return (
     <Layout className="pb-6">
-      <Text className="mb-6 text-4xl">Setting Up</Text>
-      <Text className="mb-2 text-2xl">Choose a sales channel</Text>
+      <Text className="mb-6 text-4xl">Configurando</Text>
+      <Text className="mb-2 text-2xl">Elegir un canal de ventas</Text>
       <Text className="mb-6 text-gray-300">
-        Select an existing sales channel from the list or create a new one to proceed.
+        Selecciona un canal de ventas existente de la lista o crea uno nuevo para continuar.
       </Text>
 
       <SalesChannelList selectedSalesChannelId={selectedSalesChannel} onSalesChannelSelect={setSelectedSalesChannel} />
 
       <View className="mt-6 gap-4">
         <Button variant="outline" onPress={() => router.push('/settings/create-sales-channel')}>
-          Create New Sales Channel
+          Crear nuevo canal de ventas
         </Button>
 
         <Button
@@ -47,11 +47,11 @@ export default function SalesChannelScreen() {
             );
           }}
         >
-          Submit
+          Enviar
         </Button>
 
         <Button variant="outline" onPress={() => router.back()}>
-          Cancel
+          Cancelar
         </Button>
       </View>
     </Layout>

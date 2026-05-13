@@ -15,11 +15,11 @@ interface StockLocationCreateFormProps {
 }
 
 const stockLocationSchema = z.object({
-  name: z.string().min(1, 'Location name is required'),
-  address_1: z.string().min(1, 'Address is required'),
+  name: z.string().min(1, 'El nombre de la ubicación es obligatorio'),
+  address_1: z.string().min(1, 'La dirección es obligatoria'),
   address_2: z.string().optional(),
   city: z.string().optional(),
-  country_code: z.string().min(1, 'Country is required'),
+  country_code: z.string().min(1, 'El país es obligatorio'),
   province: z.string().optional(),
   postal_code: z.string().optional(),
 });
@@ -71,32 +71,32 @@ const StockLocationCreateForm: React.FC<StockLocationCreateFormProps> = ({ onSto
           : undefined
       }
     >
-      <TextField name="name" floatingPlaceholder placeholder="Location Name" />
+      <TextField name="name" floatingPlaceholder placeholder="Nombre de la ubicación" />
 
-      <TextField name="company" floatingPlaceholder placeholder="Company Name (optional)" />
+      <TextField name="company" floatingPlaceholder placeholder="Nombre de la empresa (opcional)" />
 
-      <TextField name="phone" floatingPlaceholder placeholder="Phone (optional)" />
+      <TextField name="phone" floatingPlaceholder placeholder="Teléfono (opcional)" />
 
-      <TextField name="address_1" floatingPlaceholder placeholder="Address Line 1" />
+      <TextField name="address_1" floatingPlaceholder placeholder="Dirección línea 1" />
 
-      <TextField name="address_2" floatingPlaceholder placeholder="Address Line 2 (optional)" />
+      <TextField name="address_2" floatingPlaceholder placeholder="Dirección línea 2 (opcional)" />
 
-      <TextField name="postal_code" floatingPlaceholder placeholder="Postal Code (optional)" />
+      <TextField name="postal_code" floatingPlaceholder placeholder="Código postal (opcional)" />
 
-      <TextField name="city" floatingPlaceholder placeholder="City (optional)" />
+      <TextField name="city" floatingPlaceholder placeholder="Ciudad (opcional)" />
 
       <SelectField
         floatingPlaceholder
         name="country_code"
-        placeholder="Country"
+        placeholder="País"
         options={countryOptions}
         searchable={true}
         className="mb-2"
       />
 
-      <ProvinceField name="province" countryFieldName="country_code" placeholder="Province/State (optional)" />
+      <ProvinceField name="province" countryFieldName="country_code" placeholder="Provincia/Estado (opcional)" />
 
-      <FormButton isPending={createStockLocation.isPending}>Create Stock Location</FormButton>
+      <FormButton isPending={createStockLocation.isPending}>Crear ubicación de inventario</FormButton>
     </Form>
   );
 };

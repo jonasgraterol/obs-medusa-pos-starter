@@ -17,17 +17,17 @@ export const RegionCreationStep: React.FC<RegionCreationStepProps> = ({ onComple
 
   return (
     <ScrollView contentContainerClassName="p-5" keyboardShouldPersistTaps="always">
-      <Text className="mb-6 text-4xl">Setting Up</Text>
-      <Text className="mb-2 text-2xl">Choose a region</Text>
+      <Text className="mb-6 text-4xl">Configurando</Text>
+      <Text className="mb-2 text-2xl">Elegir una región</Text>
       <Text className="mb-6 text-gray-300">
-        Create a new region that defines your market area, currency, and tax settings.
+        Crea una nueva región que define tu área de mercado, moneda y configuración de impuestos.
       </Text>
 
       <RegionCreateForm onRegionCreated={handleRegionCreated} />
 
       {typeof onBackToSelection === 'function' && (
         <Button variant="outline" className="mt-4" onPress={onBackToSelection}>
-          Cancel
+          Cancelar
         </Button>
       )}
     </ScrollView>

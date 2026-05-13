@@ -6,11 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: '¡Ups!' }} />
       <SafeAreaView className="flex-1 items-center justify-center p-5">
-        <Text className="text-3xl">This screen does not exist.</Text>
+        <Text className="text-3xl">Esta pantalla no existe.</Text>
         <Link href="/" className="mt-4 py-4">
-          <Text className="text-gray-400">Go to home screen!</Text>
+          <Text className="text-gray-400">¡Ir a la pantalla de inicio!</Text>
         </Link>
       </SafeAreaView>
     </>

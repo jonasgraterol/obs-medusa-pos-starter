@@ -13,7 +13,7 @@ interface ProvinceFieldProps {
 export function ProvinceField({
   name,
   countryFieldName,
-  placeholder = 'Province/state (optional)',
+  placeholder = 'Provincia/estado (opcional)',
   className = '',
 }: ProvinceFieldProps) {
   const { control } = useFormContext();
@@ -24,7 +24,7 @@ export function ProvinceField({
       <SelectField
         name={name}
         floatingPlaceholder
-        placeholder="Select a country first"
+        placeholder="Seleccione un país primero"
         options={[]}
         searchable={true}
         className={className}
@@ -38,7 +38,7 @@ export function ProvinceField({
       <SelectField
         name={name}
         floatingPlaceholder
-        placeholder="No provinces available"
+        placeholder="No hay provincias disponibles"
         options={[]}
         searchable={true}
         className={className}
@@ -58,7 +58,7 @@ export function ProvinceField({
       <SelectField
         name={name}
         floatingPlaceholder
-        placeholder="No provinces available"
+        placeholder="No hay provincias disponibles"
         options={[]}
         searchable={true}
         className={className}

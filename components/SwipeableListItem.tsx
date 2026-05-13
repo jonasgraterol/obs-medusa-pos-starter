@@ -179,19 +179,19 @@ export const SwipeableListItem: React.FC<SwipeableListItemProps> = ({
       className={clx('justify-center', containerClassName)}
       accessible={true}
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel || 'Swipeable item'}
+      accessibilityLabel={accessibilityLabel || 'Elemento deslizable'}
       accessibilityHint={
         accessibilityHint ||
-        `Swipe ${leftContent ? 'right' : ''}${leftContent && rightContent ? ' or ' : ''}${
-          rightContent ? 'left' : ''
-        } for actions`
+        `Desliza ${leftContent ? 'a la derecha' : ''}${leftContent && rightContent ? ' o ' : ''}${
+          rightContent ? 'a la izquierda' : ''
+        } para acciones`
       }
       accessibilityActions={[
         ...(leftContent
           ? [
               {
                 name: 'swipeRight' as const,
-                label: leftAccessibilityLabel || 'Swipe right for action',
+                label: leftAccessibilityLabel || 'Desliza a la derecha para acción',
               },
             ]
           : []),
@@ -199,7 +199,7 @@ export const SwipeableListItem: React.FC<SwipeableListItemProps> = ({
           ? [
               {
                 name: 'swipeLeft' as const,
-                label: rightAccessibilityLabel || 'Swipe left for action',
+                label: rightAccessibilityLabel || 'Desliza a la izquierda para acción',
               },
             ]
           : []),

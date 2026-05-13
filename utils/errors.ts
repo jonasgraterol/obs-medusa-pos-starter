@@ -63,15 +63,15 @@ export const getErrorMessage = (error: unknown): string => {
   if (typeof error === 'string') {
     return error;
   }
-  return 'An unknown error occurred';
+  return 'Ocurrió un error desconocido';
 };
 
 export const showErrorToast = (error: unknown) => {
   if (isUnauthorizedError(error)) {
     Toast.show({
       type: 'error',
-      text1: 'Unauthorized',
-      text2: 'You need to log in to access this resource.',
+      text1: 'No autorizado',
+      text2: 'Necesitas iniciar sesión para acceder a este recurso.',
     });
     return;
   }
@@ -79,8 +79,8 @@ export const showErrorToast = (error: unknown) => {
   if (isForbiddenError(error)) {
     Toast.show({
       type: 'error',
-      text1: 'Forbidden',
-      text2: 'You do not have permission to access this resource.',
+      text1: 'Prohibido',
+      text2: 'No tienes permiso para acceder a este recurso.',
     });
     return;
   }
@@ -88,8 +88,8 @@ export const showErrorToast = (error: unknown) => {
   if (isNotFoundError(error)) {
     Toast.show({
       type: 'error',
-      text1: 'Not Found',
-      text2: 'The requested resource could not be found.',
+      text1: 'No encontrado',
+      text2: 'No se pudo encontrar el recurso solicitado.',
     });
     return;
   }
@@ -97,8 +97,8 @@ export const showErrorToast = (error: unknown) => {
   if (isServerError(error)) {
     Toast.show({
       type: 'error',
-      text1: 'Server Error',
-      text2: 'An unexpected error occurred on the server.',
+      text1: 'Error del servidor',
+      text2: 'Ocurrió un error inesperado en el servidor.',
     });
     return;
   }
@@ -106,15 +106,15 @@ export const showErrorToast = (error: unknown) => {
   if (isNetworkError(error)) {
     Toast.show({
       type: 'error',
-      text1: 'Network Error',
-      text2: 'Please check your internet connection and try again.',
+      text1: 'Error de red',
+      text2: 'Por favor verifica tu conexión a internet e intenta de nuevo.',
     });
     return;
   }
 
   Toast.show({
     type: 'error',
-    text1: 'Something went wrong',
+    text1: 'Algo salió mal',
     text2: getErrorMessage(error),
   });
 };

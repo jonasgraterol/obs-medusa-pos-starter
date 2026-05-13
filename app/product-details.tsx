@@ -136,7 +136,7 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
   if (productQuery.isError) {
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-center text-lg">Error loading product details</Text>
+        <Text className="text-center text-lg">Error al cargar los detalles del producto</Text>
       </View>
     );
   }
@@ -144,7 +144,7 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
   if (!productQuery.data) {
     return (
       <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-center text-lg">Product not found</Text>
+        <Text className="text-center text-lg">Producto no encontrado</Text>
       </View>
     );
   }
@@ -168,7 +168,7 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
             <ProductImagesCarousel images={productQuery.data.product.images} />
           ) : (
             <View className="flex-1 items-center justify-center bg-gray-300">
-              <Text className="text-gray-500">No Image</Text>
+              <Text className="text-gray-500">Sin imagen</Text>
             </View>
           )}
         </View>
@@ -290,7 +290,7 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
                 );
               }}
             >
-              Add to cart
+              Agregar al carrito
             </Button>
           </View>
         </View>
