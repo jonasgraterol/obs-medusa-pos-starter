@@ -7,6 +7,7 @@ import { OptionPicker } from '@/components/ui/OptionPicker';
 import { QuantityPicker } from '@/components/ui/QuantityPicker';
 import { Text } from '@/components/ui/Text';
 import { useSettings } from '@/contexts/settings';
+import { clx } from '@/utils/clx';
 import { AdminProductImage } from '@medusajs/types';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
@@ -157,6 +158,7 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
 
   const currencyCode = settings.data?.region?.currency_code || 'eur';
   const price = selectedVariant?.prices?.find((price) => price.currency_code === currencyCode);
+  const inventoryQuantity = (selectedVariant as any)?.inventory_quantity as number | undefined;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="pb-safe-offset-6">
@@ -207,10 +209,8 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
                 <OptionPicker
                   key={option.id}
                   label={option.title}
-                  values={(option.values ?? []).map((value) => ({
-                    id: value.id,
-                    value: value.value,
-                    className: productQuery.data.product.variants?.some((variant) => {
+                  values={(option.values ?? []).map((value) => {
+                    const matchingVariants = productQuery.data.product.variants?.filter((variant) => {
                       const newSelectedOptions = {
                         ...selectedOptions,
                         [option.id]: value.value,
@@ -222,10 +222,22 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
                             variantOption.option_id === optionId && variantOption.value === optionValue,
                         ),
                       );
-                    })
-                      ? undefined
-                      : 'opacity-50',
-                  }))}
+                    });
+                    const hasMatchingVariant = (matchingVariants?.length ?? 0) > 0;
+                    const optionStock =
+                      matchingVariants?.reduce((sum, v) => sum + ((v as any).inventory_quantity ?? 0), 0) ?? 0;
+
+                    return {
+                      id: value.id,
+                      value: value.value,
+                      stock: optionStock,
+                      className: !hasMatchingVariant
+                        ? 'opacity-50'
+                        : optionStock === 0
+                          ? 'opacity-50 line-through'
+                          : undefined,
+                    };
+                  })}
                   onValueChange={(value) => {
                     setSelectedOptions((prev) => ({
                       ...prev,
@@ -259,13 +271,44 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
               className="mb-4"
             /> */}
 
+          {/* Stock availability indicator */}
+          {selectedVariant && typeof inventoryQuantity === 'number' && (
+            <View
+              className={clx('mb-4 rounded-lg px-3 py-2', {
+                'bg-red-50': inventoryQuantity === 0,
+                'bg-amber-50': inventoryQuantity > 0 && inventoryQuantity <= 5,
+                'bg-green-50': inventoryQuantity > 5,
+              })}
+            >
+              <Text
+                className={clx('text-sm font-medium', {
+                  'text-red-600': inventoryQuantity === 0,
+                  'text-amber-600': inventoryQuantity > 0 && inventoryQuantity <= 5,
+                  'text-green-600': inventoryQuantity > 5,
+                })}
+              >
+                {inventoryQuantity === 0
+                  ? 'Agotado'
+                  : inventoryQuantity <= 5
+                    ? `Bajo stock — ${inventoryQuantity} disponible${inventoryQuantity !== 1 ? 's' : ''}`
+                    : `En stock — ${inventoryQuantity} disponible${inventoryQuantity !== 1 ? 's' : ''}`}
+              </Text>
+            </View>
+          )}
+
           {/* Quantity and Add to Cart - moved to second column on tablet */}
           <View className="flex-row items-center gap-4">
-            <QuantityPicker quantity={quantity} onQuantityChange={setQuantity} min={1} variant="ghost" />
+            <QuantityPicker
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              min={1}
+              max={inventoryQuantity ?? undefined}
+              variant="ghost"
+            />
 
             <Button
               className="flex-1"
-              disabled={!selectedVariant}
+              disabled={!selectedVariant || inventoryQuantity === 0}
               isPending={addToDraftOrder.isPending}
               onPress={() => {
                 if (!selectedVariant) {

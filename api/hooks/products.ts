@@ -56,7 +56,9 @@ export const useProduct = (productId: string) => {
   return useQuery({
     queryKey: ['products', 'product', productId],
     queryFn: async () => {
-      return sdk.admin.product.retrieve(productId);
+      return sdk.admin.product.retrieve(productId, {
+        fields: '+variants.inventory_quantity,+variants.manage_inventory,+variants.prices.*',
+      });
     },
     enabled: !!productId,
   });

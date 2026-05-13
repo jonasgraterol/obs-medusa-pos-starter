@@ -45,7 +45,7 @@ export default function ProductsScreen() {
   const productsQuery = useProducts({
     q: searchQuery ? searchQuery : undefined,
     sales_channel_id: settings.data?.sales_channel?.id ?? undefined,
-    fields: '+variants.prices.*',
+    fields: '+variants.prices.*,+variants.inventory_quantity',
   });
 
   const handleProductPress = React.useCallback((product: AdminProduct) => {
@@ -62,6 +62,7 @@ export default function ProductsScreen() {
       }
 
       const thumbnail = item.thumbnail || item.images?.[0]?.url;
+      const totalStock = (item.variants ?? []).reduce((sum, v) => sum + ((v as any).inventory_quantity ?? 0), 0);
       const variantPrices = (item.variants ?? [])
         .flatMap((variant) =>
           variant.prices?.filter((price) => price.currency_code === settings.data?.region?.currency_code),
@@ -107,6 +108,19 @@ export default function ProductsScreen() {
                         currency: currencyCode,
                         currencyDisplay: 'narrowSymbol',
                       })}`}
+              </Text>
+              <Text
+                className={clx('mt-0.5 text-xs', {
+                  'text-red-500': totalStock === 0,
+                  'text-amber-500': totalStock > 0 && totalStock <= 5,
+                  'text-green-600': totalStock > 5,
+                })}
+              >
+                {totalStock === 0
+                  ? 'Agotado'
+                  : totalStock <= 5
+                    ? `Bajo stock (${totalStock})`
+                    : `${totalStock} en stock`}
               </Text>
             </View>
           </TouchableOpacity>
