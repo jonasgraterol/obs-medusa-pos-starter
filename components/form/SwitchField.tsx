@@ -40,7 +40,7 @@ export function SwitchField({ name, label, description, className = '', disabled
           value={value}
           onValueChange={onChange}
           disabled={disabled}
-          trackColor={{ false: '#E5E5E5', true: '#282828' }}
+          trackColor={{ false: '#E5E7EB', true: '#1C1917' }}
           thumbColor={value ? '#FFFFFF' : '#FFFFFF'}
         />
       </TouchableOpacity>
