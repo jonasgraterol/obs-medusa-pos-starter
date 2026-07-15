@@ -8,6 +8,7 @@ import { QuantityPicker } from '@/components/ui/QuantityPicker';
 import { Text } from '@/components/ui/Text';
 import { useSettings } from '@/contexts/settings';
 import { clx } from '@/utils/clx';
+import { getVariantStockForLocation } from '@/utils/inventory';
 import { AdminProductImage } from '@medusajs/types';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
@@ -158,7 +159,10 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
 
   const currencyCode = settings.data?.region?.currency_code || 'eur';
   const price = selectedVariant?.prices?.find((price) => price.currency_code === currencyCode);
-  const inventoryQuantity = (selectedVariant as any)?.inventory_quantity as number | undefined;
+  const stockLocationId = settings.data?.stock_location?.id;
+  const inventoryQuantity = selectedVariant
+    ? getVariantStockForLocation(selectedVariant, stockLocationId)
+    : undefined;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="pb-safe-offset-6">
@@ -225,7 +229,10 @@ const ProductDetails: React.FC<{ animateOut: (callback?: () => void) => void }> 
                     });
                     const hasMatchingVariant = (matchingVariants?.length ?? 0) > 0;
                     const optionStock =
-                      matchingVariants?.reduce((sum, v) => sum + ((v as any).inventory_quantity ?? 0), 0) ?? 0;
+                      matchingVariants?.reduce(
+                        (sum, v) => sum + getVariantStockForLocation(v, stockLocationId),
+                        0,
+                      ) ?? 0;
 
                     return {
                       id: value.id,
