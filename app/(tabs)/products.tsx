@@ -7,6 +7,7 @@ import { useSettings } from '@/contexts/settings';
 import { useBreakpointValue } from '@/hooks/useBreakpointValue';
 import { clx } from '@/utils/clx';
 import { showErrorToast } from '@/utils/errors';
+import { getVariantStockForLocation } from '@/utils/inventory';
 import { AdminProduct } from '@medusajs/types';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { router } from 'expo-router';
@@ -45,7 +46,8 @@ export default function ProductsScreen() {
   const productsQuery = useProducts({
     q: searchQuery ? searchQuery : undefined,
     sales_channel_id: settings.data?.sales_channel?.id ?? undefined,
-    fields: '+variants.prices.*',
+    fields:
+      '+variants.prices.*,+variants.inventory_items.*,+variants.inventory_items.inventory.location_levels.*',
   });
 
   const handleProductPress = React.useCallback((product: AdminProduct) => {
@@ -62,6 +64,11 @@ export default function ProductsScreen() {
       }
 
       const thumbnail = item.thumbnail || item.images?.[0]?.url;
+      const stockLocationId = settings.data?.stock_location?.id;
+      const totalStock = (item.variants ?? []).reduce(
+        (sum, v) => sum + getVariantStockForLocation(v, stockLocationId),
+        0,
+      );
       const variantPrices = (item.variants ?? [])
         .flatMap((variant) =>
           variant.prices?.filter((price) => price.currency_code === settings.data?.region?.currency_code),
@@ -107,6 +114,19 @@ export default function ProductsScreen() {
                         currency: currencyCode,
                         currencyDisplay: 'narrowSymbol',
                       })}`}
+              </Text>
+              <Text
+                className={clx('mt-0.5 text-xs', {
+                  'text-red-500': totalStock === 0,
+                  'text-amber-500': totalStock > 0 && totalStock <= 5,
+                  'text-green-600': totalStock > 5,
+                })}
+              >
+                {totalStock === 0
+                  ? 'Agotado'
+                  : totalStock <= 5
+                    ? `Bajo stock (${totalStock})`
+                    : `${totalStock} en stock`}
               </Text>
             </View>
           </TouchableOpacity>

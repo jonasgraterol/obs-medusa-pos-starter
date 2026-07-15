@@ -51,7 +51,14 @@ const useGetOrSetDraftOrderId = () => {
     const draftOrderId = await SecureStore.getItemAsync(DRAFT_ORDER_ID_STORAGE_KEY);
 
     if (draftOrderId) {
-      return draftOrderId;
+      // Validate the draft order still exists on the server
+      try {
+        await sdk.admin.draftOrder.retrieve(draftOrderId);
+        return draftOrderId;
+      } catch {
+        // Draft order was deleted/completed — clear stale reference
+        await SecureStore.deleteItemAsync(DRAFT_ORDER_ID_STORAGE_KEY);
+      }
     }
 
     if (!settings.data?.region?.id) {
@@ -112,10 +119,16 @@ export const useCurrentDraftOrder = () => {
         return null;
       }
 
-      return sdk.admin.draftOrder.retrieve(draftOrderId, {
-        fields:
-          '+tax_total,+discount_total,+subtotal,+total,+items.variant.options.*,+items.variant.options.option.*,+items.variant.inventory_quantity,+customer.*',
-      });
+      try {
+        return await sdk.admin.draftOrder.retrieve(draftOrderId, {
+          fields:
+            '+tax_total,+discount_total,+subtotal,+total,+items.variant.options.*,+items.variant.options.option.*,+items.variant.inventory_quantity,+customer.*',
+        });
+      } catch {
+        // Draft order no longer exists — clear stale reference
+        await SecureStore.deleteItemAsync(DRAFT_ORDER_ID_STORAGE_KEY);
+        return null;
+      }
     },
   });
 };
