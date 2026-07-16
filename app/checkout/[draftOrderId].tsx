@@ -4,6 +4,7 @@ import {
   useCurrentDraftOrder,
   useDraftOrderOrOrder,
 } from '@/api/hooks/draft-orders';
+import { useCaptureCash, useCreatePaymentLink } from '@/api/hooks/payment';
 import { ShoppingCart } from '@/components/icons/shopping-cart';
 import { InfoBanner } from '@/components/InfoBanner';
 import { CheckoutSkeleton } from '@/components/skeletons/CheckoutSkeleton';
@@ -17,7 +18,7 @@ import { AdminOrderLineItem } from '@medusajs/types';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, Share, View } from 'react-native';
 
 const DraftOrderItem: React.FC<{ item: AdminOrderLineItem }> = ({ item }) => {
   const settings = useSettings();
@@ -59,6 +60,35 @@ export default function CheckoutScreen() {
   const settings = useSettings();
   const draftOrder = useDraftOrderOrOrder(draftOrderId);
   const completeOrder = useCompleteDraftOrder(draftOrderId);
+  const captureCash = useCaptureCash();
+  const createPaymentLink = useCreatePaymentLink();
+
+  const isAnyPending = completeOrder.isPending || captureCash.isPending || createPaymentLink.isPending;
+
+  const handleCashPayment = async () => {
+    completeOrder.mutate(undefined, {
+      onSuccess: () => {
+        captureCash.mutate(draftOrderId);
+      },
+    });
+  };
+
+  const handlePaymentLink = async () => {
+    completeOrder.mutate(undefined, {
+      onSuccess: () => {
+        createPaymentLink.mutate(draftOrderId, {
+          onSuccess: (data) => {
+            if (data.url) {
+              Share.share({
+                message: `Paga tu pedido aquí: ${data.url}`,
+                url: data.url,
+              });
+            }
+          },
+        });
+      },
+    });
+  };
 
   const renderItem = React.useCallback<ListRenderItem<AdminOrderLineItem>>(
     ({ item }) => <DraftOrderItem item={item} />,
@@ -215,23 +245,45 @@ export default function CheckoutScreen() {
           </Text>
         </View>
 
-        <View className="pb-safe flex-row gap-2">
-          <Button
-            variant="outline"
-            className="flex-1"
-            onPress={() => router.back()}
-            disabled={!isDraftOrder || completeOrder.isPending}
-          >
-            Volver al carrito
-          </Button>
-          <Button
-            className="flex-1"
-            onPress={() => completeOrder.mutate()}
-            disabled={!isDraftOrder}
-            isPending={completeOrder.isPending}
-          >
-            Completar
-          </Button>
+        <View className="pb-safe gap-2">
+          <View className="flex-row gap-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onPress={() => router.back()}
+              disabled={!isDraftOrder || isAnyPending}
+            >
+              Volver al carrito
+            </Button>
+            <Button
+              className="flex-1"
+              onPress={() => completeOrder.mutate()}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={completeOrder.isPending && !captureCash.isPending && !createPaymentLink.isPending}
+            >
+              Completar
+            </Button>
+          </View>
+          <View className="flex-row gap-2">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onPress={handleCashPayment}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={captureCash.isPending}
+            >
+              Cobrar en efectivo
+            </Button>
+            <Button
+              variant="outline"
+              className="flex-1"
+              onPress={handlePaymentLink}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={createPaymentLink.isPending}
+            >
+              Enviar link de pago
+            </Button>
+          </View>
         </View>
       </Layout>
 
