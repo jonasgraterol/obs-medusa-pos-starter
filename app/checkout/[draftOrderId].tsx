@@ -4,6 +4,8 @@ import {
   useCurrentDraftOrder,
   useDraftOrderOrOrder,
 } from '@/api/hooks/draft-orders';
+import { useCaptureCash, useCreatePaymentLink } from '@/api/hooks/payment';
+import { Loader } from '@/components/icons/loader';
 import { ShoppingCart } from '@/components/icons/shopping-cart';
 import { InfoBanner } from '@/components/InfoBanner';
 import { CheckoutSkeleton } from '@/components/skeletons/CheckoutSkeleton';
@@ -17,7 +19,36 @@ import { AdminOrderLineItem } from '@medusajs/types';
 import { FlashList, ListRenderItem } from '@shopify/flash-list';
 import { router, useLocalSearchParams, usePathname } from 'expo-router';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, Pressable, Share, TouchableOpacity, View } from 'react-native';
+
+const PaymentOptionButton = ({
+  label,
+  description,
+  onPress,
+  disabled,
+  isPending,
+}: {
+  label: string;
+  description: string;
+  onPress: () => void;
+  disabled: boolean;
+  isPending: boolean;
+}) => {
+  return (
+    <TouchableOpacity
+      className={`flex-1 rounded-xl border p-3 ${disabled ? 'border-gray-100 bg-gray-50' : 'border-gray-200 bg-white'}`}
+      onPress={onPress}
+      disabled={disabled || isPending}
+      accessibilityRole="button"
+    >
+      <View className="flex-row items-center justify-between">
+        <Text className={`text-base font-medium ${disabled ? 'text-gray-300' : 'text-black'}`}>{label}</Text>
+        {isPending && <Loader size={14} color="#B5B5B5" className="animate-spin" />}
+      </View>
+      <Text className="text-xs text-gray-400 mt-1">{description}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const DraftOrderItem: React.FC<{ item: AdminOrderLineItem }> = ({ item }) => {
   const settings = useSettings();
@@ -59,6 +90,35 @@ export default function CheckoutScreen() {
   const settings = useSettings();
   const draftOrder = useDraftOrderOrOrder(draftOrderId);
   const completeOrder = useCompleteDraftOrder(draftOrderId);
+  const captureCash = useCaptureCash();
+  const createPaymentLink = useCreatePaymentLink();
+
+  const isAnyPending = completeOrder.isPending || captureCash.isPending || createPaymentLink.isPending;
+
+  const handleCashPayment = async () => {
+    completeOrder.mutate(undefined, {
+      onSuccess: () => {
+        captureCash.mutate(draftOrderId);
+      },
+    });
+  };
+
+  const handlePaymentLink = async () => {
+    completeOrder.mutate(undefined, {
+      onSuccess: () => {
+        createPaymentLink.mutate(draftOrderId, {
+          onSuccess: (data) => {
+            if (data.url) {
+              Share.share({
+                message: `Paga tu pedido aquí: ${data.url}`,
+                url: data.url,
+              });
+            }
+          },
+        });
+      },
+    });
+  };
 
   const renderItem = React.useCallback<ListRenderItem<AdminOrderLineItem>>(
     ({ item }) => <DraftOrderItem item={item} />,
@@ -215,23 +275,36 @@ export default function CheckoutScreen() {
           </Text>
         </View>
 
-        <View className="pb-safe flex-row gap-2">
-          <Button
-            variant="outline"
-            className="flex-1"
-            onPress={() => router.back()}
-            disabled={!isDraftOrder || completeOrder.isPending}
-          >
-            Volver al carrito
-          </Button>
-          <Button
-            className="flex-1"
-            onPress={() => completeOrder.mutate()}
-            disabled={!isDraftOrder}
-            isPending={completeOrder.isPending}
-          >
-            Completar
-          </Button>
+        <View className="pb-safe gap-3">
+          <Text className="text-sm text-gray-400">Método de cobro</Text>
+
+          <View className="flex-row gap-2">
+            <PaymentOptionButton
+              label="Completar"
+              description="Pago pendiente"
+              onPress={() => completeOrder.mutate()}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={completeOrder.isPending && !captureCash.isPending && !createPaymentLink.isPending}
+            />
+            <PaymentOptionButton
+              label="Efectivo"
+              description="Marcar como pagado"
+              onPress={handleCashPayment}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={captureCash.isPending}
+            />
+            <PaymentOptionButton
+              label="Link de pago"
+              description="Enviar al cliente"
+              onPress={handlePaymentLink}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={createPaymentLink.isPending}
+            />
+          </View>
+
+          <Pressable onPress={() => router.back()} disabled={!isDraftOrder || isAnyPending}>
+            <Text className="text-center text-gray-400 text-sm py-1">← Volver al carrito</Text>
+          </Pressable>
         </View>
       </Layout>
 
