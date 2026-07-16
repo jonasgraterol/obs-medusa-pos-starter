@@ -1,7 +1,10 @@
 import { DRAFT_ORDER_DEFAULT_CUSTOMER_EMAIL } from '@/api/hooks/draft-orders';
 import { useOrder } from '@/api/hooks/orders';
+import { useCaptureCash, useCreatePaymentLink } from '@/api/hooks/payment';
+import { Loader } from '@/components/icons/loader';
 import { InfoBanner } from '@/components/InfoBanner';
 import { LoadingBanner } from '@/components/LoadingBanner';
+import { Button } from '@/components/ui/Button';
 import { BottomSheet } from '@/components/ui/BottomSheet';
 import { FulfillmentStatus, OrderStatus, PaymentStatus } from '@/components/ui/OrderStatus';
 import { Text } from '@/components/ui/Text';
@@ -9,7 +12,7 @@ import { useSettings } from '@/contexts/settings';
 import { AdminOrder, AdminOrderLineItem } from '@medusajs/types';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Share, TouchableOpacity, View } from 'react-native';
 
 const CustomerInformation: React.FC<{
   order: AdminOrder;
@@ -233,6 +236,75 @@ const OrderInformation: React.FC<{
   );
 };
 
+const PaymentActions: React.FC<{ order: AdminOrder }> = ({ order }) => {
+  const createPaymentLink = useCreatePaymentLink();
+  const captureCash = useCaptureCash({
+    onSuccess: () => {
+      // Refetch order to update payment status
+    },
+  });
+
+  const hasPendingPayment =
+    order.payment_status === 'not_paid' ||
+    order.payment_status === 'awaiting' ||
+    order.payment_status === 'requires_action';
+
+  const isNotCancelled = order.status !== 'canceled';
+
+  if (!hasPendingPayment || !isNotCancelled) return null;
+
+  const isAnyPending = createPaymentLink.isPending || captureCash.isPending;
+
+  const handlePaymentLink = () => {
+    createPaymentLink.mutate(order.id, {
+      onSuccess: (data) => {
+        if (data.url) {
+          Share.share({
+            message: `Paga tu pedido #${order.display_id} aquí: ${data.url}`,
+            url: data.url,
+          });
+        }
+      },
+    });
+  };
+
+  const handleCash = () => {
+    captureCash.mutate(order.id);
+  };
+
+  return (
+    <View className="mt-6 gap-3">
+      <Text className="text-sm text-gray-400">Cobrar pedido</Text>
+      <View className="flex-row gap-2">
+        <TouchableOpacity
+          className={`flex-1 rounded-xl border p-3 ${isAnyPending ? 'border-gray-100 bg-gray-50' : 'border-gray-200 bg-white'}`}
+          onPress={handleCash}
+          disabled={isAnyPending}
+          accessibilityRole="button"
+        >
+          <View className="flex-row items-center justify-between">
+            <Text className={`text-base font-medium ${isAnyPending ? 'text-gray-300' : 'text-black'}`}>Efectivo</Text>
+            {captureCash.isPending && <Loader size={14} color="#B5B5B5" className="animate-spin" />}
+          </View>
+          <Text className="text-xs text-gray-400 mt-1">Marcar como pagado</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className={`flex-1 rounded-xl border p-3 ${isAnyPending ? 'border-gray-100 bg-gray-50' : 'border-gray-200 bg-white'}`}
+          onPress={handlePaymentLink}
+          disabled={isAnyPending}
+          accessibilityRole="button"
+        >
+          <View className="flex-row items-center justify-between">
+            <Text className={`text-base font-medium ${isAnyPending ? 'text-gray-300' : 'text-black'}`}>Link de pago</Text>
+            {createPaymentLink.isPending && <Loader size={14} color="#B5B5B5" className="animate-spin" />}
+          </View>
+          <Text className="text-xs text-gray-400 mt-1">Enviar al cliente</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
 const OrderDetails: React.FC<{ animateOut: (callback?: () => void) => void }> = ({ animateOut }) => {
   const { orderId, orderNumber, orderDate } = useLocalSearchParams<{
     orderId: string;
@@ -326,7 +398,12 @@ const OrderDetails: React.FC<{ animateOut: (callback?: () => void) => void }> = 
           className="shrink grow-0"
           contentContainerClassName="pt-4 grow-0 pb-safe-offset-6"
           ListFooterComponentClassName="mt-14"
-          ListFooterComponent={<OrderInformation order={orderQuery.data.order} currency={currency} />}
+          ListFooterComponent={
+            <>
+              <OrderInformation order={orderQuery.data.order} currency={currency} />
+              <PaymentActions order={orderQuery.data.order} />
+            </>
+          }
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
         />
