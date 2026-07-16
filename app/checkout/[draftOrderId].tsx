@@ -278,26 +278,24 @@ export default function CheckoutScreen() {
         <View className="pb-safe gap-3">
           <Text className="text-sm text-gray-400">Método de cobro</Text>
 
-          <Button
-            className="flex-1"
-            onPress={() => completeOrder.mutate()}
-            disabled={!isDraftOrder || isAnyPending}
-            isPending={completeOrder.isPending && !captureCash.isPending && !createPaymentLink.isPending}
-          >
-            Crear pedido
-          </Button>
-
           <View className="flex-row gap-2">
             <PaymentOptionButton
+              label="Completar"
+              description="Pago pendiente"
+              onPress={() => completeOrder.mutate()}
+              disabled={!isDraftOrder || isAnyPending}
+              isPending={completeOrder.isPending && !captureCash.isPending && !createPaymentLink.isPending}
+            />
+            <PaymentOptionButton
               label="Efectivo"
-              description="Cobrar y marcar como pagado"
+              description="Marcar como pagado"
               onPress={handleCashPayment}
               disabled={!isDraftOrder || isAnyPending}
               isPending={captureCash.isPending}
             />
             <PaymentOptionButton
               label="Link de pago"
-              description="Enviar link al cliente"
+              description="Enviar al cliente"
               onPress={handlePaymentLink}
               disabled={!isDraftOrder || isAnyPending}
               isPending={createPaymentLink.isPending}
