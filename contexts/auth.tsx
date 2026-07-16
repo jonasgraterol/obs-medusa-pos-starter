@@ -1,3 +1,4 @@
+import { MEDUSA_BACKEND_URL } from '@/config/api';
 import { isUnauthorizedError } from '@/utils/errors';
 import Medusa from '@medusajs/js-sdk';
 import * as SecureStore from 'expo-secure-store';
@@ -10,7 +11,6 @@ export type AuthStateType =
     }
   | {
       status: 'unauthenticated';
-      medusaUrl?: string;
       userEmail?: string;
     }
   | {
@@ -27,7 +27,7 @@ export type AuthStateType =
 
 export type AuthContextType = {
   state: AuthStateType;
-  login: (medusaUrl: string, email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -47,14 +47,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   });
 
   const login = React.useCallback(
-    async (medusaUrl: string, email: string, password: string) => {
+    async (email: string, password: string) => {
       if (state.status === 'authenticated') {
         throw new Error('User is already authenticated');
       }
 
       try {
         const sdk = new Medusa({
-          baseUrl: medusaUrl,
+          baseUrl: MEDUSA_BACKEND_URL,
           debug: false,
           auth: {
             type: 'jwt',
@@ -77,7 +77,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
           Authorization: `Bearer ${apiKey}`,
         });
 
-        await SecureStore.setItemAsync('medusaUrl', medusaUrl);
         await SecureStore.setItemAsync('userEmail', email);
         await SecureStore.setItemAsync('apiKey', apiKey);
 
@@ -91,7 +90,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
             email: userResponse.user.email,
           },
           userEmail: email,
-          medusaUrl,
+          medusaUrl: MEDUSA_BACKEND_URL,
           apiKey,
         });
       } catch (error) {
@@ -132,7 +131,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
     const loadAuthState = async () => {
       try {
-        const medusaUrl = await SecureStore.getItemAsync('medusaUrl');
         const userEmail = await SecureStore.getItemAsync('userEmail');
         const apiKey = await SecureStore.getItemAsync('apiKey');
 
@@ -140,9 +138,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
           return;
         }
 
-        if (medusaUrl && apiKey) {
+        if (apiKey) {
           const sdk = new Medusa({
-            baseUrl: medusaUrl,
+            baseUrl: MEDUSA_BACKEND_URL,
             debug: false,
             auth: {
               type: 'jwt',
@@ -175,7 +173,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
               email: userResponse.user.email,
             },
             userEmail: userResponse.user.email,
-            medusaUrl,
+            medusaUrl: MEDUSA_BACKEND_URL,
             apiKey,
           });
         } else {
@@ -187,7 +185,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
           setState({
             status: 'unauthenticated',
-            medusaUrl: medusaUrl ?? undefined,
             userEmail: userEmail ?? undefined,
           });
         }
@@ -215,7 +212,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
           });
         }
 
-        setState({ status: 'unauthenticated', medusaUrl: undefined });
+        setState({ status: 'unauthenticated' });
       }
     };
 
