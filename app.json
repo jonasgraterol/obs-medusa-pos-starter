@@ -63,13 +63,13 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "2c44b68b-5c32-4031-a160-d315e6c399d4"
+        "projectId": "91be8226-0cbb-4461-8d80-7567cd46ff10"
       }
     },
     "owner": "obs-jeans",
     "runtimeVersion": "1.0.0",
     "updates": {
-      "url": "https://u.expo.dev/2c44b68b-5c32-4031-a160-d315e6c399d4"
+      "url": "https://u.expo.dev/91be8226-0cbb-4461-8d80-7567cd46ff10"
     }
   }
 }
